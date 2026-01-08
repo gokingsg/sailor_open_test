@@ -1,0 +1,8 @@
+{
+  "name": "Sailors Open 2026",
+  "description": "The official internal tennis tournament application for Sailors. Features registration, skill level matchmaking, and event information.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
