@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -7,16 +7,18 @@ import {
   ChevronDown, 
   Trophy,
   ArrowRight,
-  Check
+  Check,
+  LogOut
 } from 'lucide-react';
 
 /**
  * ASSET INSTRUCTIONS:
- * Ensure 'logo.png' is in your 'public' folder.
+ * Ensure 'logo.png' and 'bg_left_bar.png' are in your 'public' folder.
  */
 const ASSETS = {
   logo: "/logo.png",
-  wave: "https://res.cloudinary.com/dfm67v8v3/image/upload/v1740051187/Wave_Graphics_p7e5u6.png"
+  wave: "https://res.cloudinary.com/dfm67v8v3/image/upload/v1740051187/Wave_Graphics_p7e5u6.png",
+  sidebarPattern: "/bg_left_bar.png"
 };
 
 // --- Types ---
@@ -95,10 +97,91 @@ const QUESTIONS: MatchmakerQuestion[] = [
 
 // --- Components ---
 
+const UserProfile = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-10 h-10 lg:w-12 lg:h-12 bg-white border-2 border-slate-100 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 overflow-hidden"
+      >
+        <div className="w-full h-full bg-[#4c8bf5] text-white flex items-center justify-center font-black text-lg">
+          A
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden"
+          >
+            <div className="p-6 border-b border-slate-50">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 rounded-full bg-[#4c8bf5] flex items-center justify-center text-white font-bold">
+                  A
+                </div>
+                <div className="overflow-hidden">
+                  <p className="font-bold text-[#000080] truncate">Amax</p>
+                  <p className="text-xs text-slate-400 truncate">amax@sea.com</p>
+                </div>
+              </div>
+              <div className="py-2 px-3 bg-slate-50 rounded-lg flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Logged In</span>
+              </div>
+            </div>
+            
+            <div className="p-2">
+              <button 
+                onClick={() => alert('Mock Logout: You would be redirected.')}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-red-500 rounded-xl transition-colors font-bold text-sm"
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const TopHeader = () => {
+  return (
+    <header className="w-full h-20 bg-white border-b border-slate-100 flex items-center justify-end px-6 lg:px-10 z-[80]">
+      <UserProfile />
+    </header>
+  );
+};
+
 const Sidebar = () => {
   return (
-    <div className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-50">
-      <div className="mb-20">
+    <div className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden">
+      {/* Background Pattern */}
+      <img 
+        src={ASSETS.sidebarPattern} 
+        alt="" 
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-100" 
+        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+      />
+      
+      <div className="relative z-10 mb-20">
         <img 
           src={ASSETS.logo} 
           alt="Sailors Open 2026" 
@@ -107,7 +190,7 @@ const Sidebar = () => {
         />
       </div>
 
-      <nav className="flex flex-col gap-8">
+      <nav className="relative z-10 flex flex-col gap-8">
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="text-lg font-medium transition-all text-left w-fit sidebar-link-active"
@@ -116,7 +199,7 @@ const Sidebar = () => {
         </button>
       </nav>
 
-      <div className="mt-auto opacity-20 text-xs">
+      <div className="relative z-10 mt-auto opacity-20 text-xs">
         © 2026 Sailors Open
       </div>
     </div>
@@ -128,7 +211,7 @@ const MobileNav = () => {
 
   return (
     <div className="lg:hidden fixed top-0 left-0 w-full z-[100]">
-      <div className="flex justify-between items-center p-6 bg-[#000080] text-white shadow-lg">
+      <div className="flex justify-between items-center p-6 bg-[#000080] text-white shadow-lg h-24">
         <div className="w-12 h-12">
            <img 
             src={ASSETS.logo} 
@@ -148,7 +231,7 @@ const MobileNav = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl"
+            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-24 left-0 w-full"
           >
             <button 
               onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
@@ -166,11 +249,11 @@ const MobileNav = () => {
 const AboutSection = () => {
   const scrollToRegister = () => {
     const el = document.getElementById('registration-flow');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <section className="min-h-[80vh] flex flex-col justify-center px-6 lg:px-24 py-32 lg:py-0 bg-white">
+    <section className="min-h-[80vh] flex flex-col justify-center px-6 lg:px-24 py-16 lg:py-0">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -227,7 +310,7 @@ const RegistrationFlow = () => {
     }
     setFlowStep('matchmaker');
     setTimeout(() => {
-      document.getElementById('registration-flow')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('registration-flow')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   };
 
@@ -386,13 +469,17 @@ const RegistrationFlow = () => {
 
 export default function App() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white flex flex-col lg:flex-row relative">
       <Sidebar />
       <MobileNav />
       
-      <div className="lg:ml-80">
-        <AboutSection />
-        <RegistrationFlow />
+      {/* Container for scrolling content */}
+      <div className="flex-1 lg:ml-80 relative min-h-screen flex flex-col pt-24 lg:pt-0">
+        <TopHeader />
+        <div className="flex-1">
+          <AboutSection />
+          <RegistrationFlow />
+        </div>
       </div>
 
       <div className="lg:hidden w-full h-screen fixed inset-0 z-[-1] bg-[#000080]" />
