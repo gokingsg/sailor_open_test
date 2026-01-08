@@ -257,7 +257,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 text-center">
+    <section className="h-[calc(100vh-12rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-8 lg:py-16 text-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -265,20 +265,20 @@ const AboutSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-4xl"
       >
-        <h1 className="text-5xl lg:text-8xl font-black text-[#000080] mb-8 leading-tight">
+        <h1 className="text-4xl lg:text-8xl font-black text-[#000080] mb-6 lg:mb-8 leading-tight">
           About Sailors Open
         </h1>
-        <p className="text-xl lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-12 max-w-2xl mx-auto">
+        <p className="text-lg lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-10 lg:mb-12 max-w-2xl mx-auto">
           The company-wide tennis tournament. Take a break, have fun, and get to know fellow Sailors. Open to all skill levels!
         </p>
         
         <div className="flex justify-center">
           <button 
             onClick={scrollToRegister}
-            className="group flex items-center gap-4 px-12 py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
+            className="group flex items-center gap-4 px-10 py-5 lg:px-12 lg:py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-xl lg:text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
           >
             Register Now
-            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />
+            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={24} />
           </button>
         </div>
       </motion.div>
