@@ -5,25 +5,23 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  Trophy,
-  Users,
-  Target,
-  ArrowRight,
-  Send
+  Trophy
 } from 'lucide-react';
 
 // --- Types ---
 type RegistrationType = 'player' | 'volunteer';
 
+interface MatchmakerOption {
+  id: string;
+  tag?: string;
+  label: string;
+}
+
 interface MatchmakerQuestion {
   id: number;
   question: string;
   isMultiSelect?: boolean;
-  options: {
-    id: string;
-    tag?: string;
-    label: string;
-  }[];
+  options: MatchmakerOption[];
 }
 
 // --- Constants ---
@@ -221,7 +219,7 @@ const MobileNav = ({ activeSection, setActiveSection }: { activeSection: string,
 
 const AboutSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 lg:px-24 py-32 lg:py-0">
+    <section className="min-h-screen flex flex-col justify-center px-6 lg:px-24 py-32 lg:py-0 bg-white">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}

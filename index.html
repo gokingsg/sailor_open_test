@@ -14,12 +14,6 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       scroll-behavior: smooth;
     }
-    .main-bg {
-      background-color: #000080; /* Deep blue from Figma */
-    }
-    .wave-gradient {
-      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,128,1) 100%);
-    }
     .sidebar-link-active {
       border-bottom: 2px solid white;
     }
@@ -36,21 +30,30 @@
       background: #000080;
       border-radius: 10px;
     }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
   </style>
-<script type="importmap">
-{
-  "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "framer-motion": "https://esm.sh/framer-motion@^12.24.10",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
+  <script>
+    // Polyfill process.env for Gemini SDK compatibility in browser
+    window.process = { env: { API_KEY: "" } };
+  </script>
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@^19.2.3",
+      "react/": "https://esm.sh/react@^19.2.3/",
+      "react-dom": "https://esm.sh/react-dom@^19.2.3",
+      "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+      "framer-motion": "https://esm.sh/framer-motion@^12.24.10",
+      "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+      "@google/genai": "https://esm.sh/@google/genai@^1.34.0"
+    }
   }
-}
-</script>
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
   <div id="root"></div>
+  <script type="module" src="index.tsx"></script>
 </body>
 </html>
