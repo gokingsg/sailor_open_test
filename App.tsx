@@ -115,11 +115,9 @@ const UserProfile = () => {
     <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-10 h-10 lg:w-12 lg:h-12 bg-white border-2 border-slate-100 rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 overflow-hidden"
+        className="w-10 h-10 lg:w-12 lg:h-12 bg-[#4c8bf5] text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all active:scale-95 overflow-hidden font-black text-lg"
       >
-        <div className="w-full h-full bg-[#4c8bf5] text-white flex items-center justify-center font-black text-lg">
-          A
-        </div>
+        A
       </button>
 
       <AnimatePresence>
@@ -128,7 +126,7 @@ const UserProfile = () => {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden"
+            className="absolute right-0 mt-4 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-[100]"
           >
             <div className="p-6 border-b border-slate-50">
               <div className="flex items-center gap-4 mb-4">
@@ -164,7 +162,7 @@ const UserProfile = () => {
 
 const TopHeader = () => {
   return (
-    <header className="w-full h-20 bg-white border-b border-slate-100 flex items-center justify-end px-6 lg:px-10 z-[80]">
+    <header className="w-full h-16 lg:h-20 bg-white flex items-center justify-end px-6 lg:px-10 z-[80]">
       <UserProfile />
     </header>
   );
@@ -211,16 +209,22 @@ const MobileNav = () => {
 
   return (
     <div className="lg:hidden fixed top-0 left-0 w-full z-[100]">
-      <div className="flex justify-between items-center p-6 bg-[#000080] text-white shadow-lg h-24">
-        <div className="w-12 h-12">
+      <div className="relative flex items-center justify-center h-32 bg-[#000080] text-white shadow-lg px-6 overflow-visible">
+        {/* Centered Large Logo */}
+        <div className="w-32 h-32 flex items-center justify-center translate-y-4">
            <img 
             src={ASSETS.logo} 
             alt="Logo" 
-            className="w-full h-full object-contain block"
+            className="w-full h-full object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         </div>
-        <button onClick={() => setIsOpen(!isOpen)} className="p-2">
+        
+        {/* Menu Button on the Right */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="absolute right-6 p-2 z-[110]"
+        >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -231,7 +235,7 @@ const MobileNav = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-24 left-0 w-full"
+            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-32 left-0 w-full z-[105]"
           >
             <button 
               onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
@@ -253,36 +257,31 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="min-h-[80vh] flex flex-col justify-center px-6 lg:px-24 py-16 lg:py-0">
+    <section className="h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 text-center">
       <motion.div 
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-2xl"
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-4xl"
       >
-        <h1 className="text-5xl lg:text-7xl font-black text-[#000080] mb-8 leading-tight">
+        <h1 className="text-5xl lg:text-8xl font-black text-[#000080] mb-8 leading-tight">
           About Sailors Open
         </h1>
-        <p className="text-xl text-[#000080]/80 leading-relaxed font-medium mb-10">
+        <p className="text-xl lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-12 max-w-2xl mx-auto">
           The company-wide tennis tournament. Take a break, have fun, and get to know fellow Sailors. Open to all skill levels!
         </p>
         
-        <button 
-          onClick={scrollToRegister}
-          className="group flex items-center gap-3 px-10 py-5 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-2xl font-black text-xl shadow-2xl shadow-[#4c8bf5]/30 transition-all active:scale-95"
-        >
-          Register Now
-          <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-        </button>
+        <div className="flex justify-center">
+          <button 
+            onClick={scrollToRegister}
+            className="group flex items-center gap-4 px-12 py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
+          >
+            Register Now
+            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />
+          </button>
+        </div>
       </motion.div>
-      
-      <div className="mt-20 relative w-full h-40 lg:h-64 overflow-hidden rounded-[3rem]">
-        <img 
-          src={ASSETS.wave} 
-          alt="Wave Decoration" 
-          className="w-full h-full object-cover"
-        />
-      </div>
     </section>
   );
 };
@@ -337,8 +336,8 @@ const RegistrationFlow = () => {
   };
 
   return (
-    <section id="registration-flow" className="py-24 px-6 lg:px-24 bg-slate-50 min-h-screen">
-      <div className="max-w-3xl mx-auto">
+    <section id="registration-flow" className="py-24 px-6 lg:px-24 bg-slate-50 min-h-screen flex items-center justify-center">
+      <div className="max-w-3xl w-full mx-auto">
         <AnimatePresence mode="wait">
           {flowStep === 'info' && (
             <motion.div 
@@ -474,9 +473,9 @@ export default function App() {
       <MobileNav />
       
       {/* Container for scrolling content */}
-      <div className="flex-1 lg:ml-80 relative min-h-screen flex flex-col pt-24 lg:pt-0">
+      <div className="flex-1 lg:ml-80 relative min-h-screen flex flex-col pt-32 lg:pt-0">
         <TopHeader />
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
           <AboutSection />
           <RegistrationFlow />
         </div>
