@@ -171,7 +171,7 @@ const TopHeader = () => {
 const Sidebar = () => {
   return (
     <div 
-      className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden"
+      className="hidden lg:flex flex-col w-[340px] h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden shadow-2xl"
       style={{
         backgroundImage: `url(${ASSETS.sidebarPattern})`,
         backgroundSize: 'cover',
@@ -179,7 +179,7 @@ const Sidebar = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="relative z-10 mb-20">
+      <div className="relative z-10 mb-16">
         <img 
           src={ASSETS.logo} 
           alt="Sailors Open 2026" 
@@ -187,16 +187,16 @@ const Sidebar = () => {
         />
       </div>
 
-      <nav className="relative z-10 flex flex-col gap-8">
+      <nav className="relative z-10 flex flex-col gap-10">
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="text-lg font-medium transition-all text-left w-fit sidebar-link-active"
+          className="text-xl font-bold transition-all text-left w-fit sidebar-link-active"
         >
           About
         </button>
       </nav>
 
-      <div className="relative z-10 mt-auto opacity-20 text-xs">
+      <div className="relative z-10 mt-auto opacity-30 text-sm font-medium">
         © 2026 Sailors Open
       </div>
     </div>
@@ -483,7 +483,7 @@ export default function App() {
       <MobileNav />
       
       {/* Container for scrolling content */}
-      <div className="flex-1 lg:ml-80 relative min-h-screen flex flex-col pt-32 lg:pt-0">
+      <div className="flex-1 lg:ml-[340px] relative min-h-screen flex flex-col pt-32 lg:pt-0">
         <TopHeader />
         <div className="flex-1 flex flex-col">
           <AboutSection />
