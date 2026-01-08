@@ -170,21 +170,20 @@ const TopHeader = () => {
 
 const Sidebar = () => {
   return (
-    <div className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden">
-      {/* Background Pattern */}
-      <img 
-        src={ASSETS.sidebarPattern} 
-        alt="" 
-        className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-100" 
-        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-      />
-      
+    <div 
+      className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden"
+      style={{
+        backgroundImage: `url(${ASSETS.sidebarPattern})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       <div className="relative z-10 mb-20">
         <img 
           src={ASSETS.logo} 
           alt="Sailors Open 2026" 
           className="w-full h-auto object-contain block"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
       </div>
 
@@ -228,7 +227,6 @@ const MobileNav = () => {
             src={ASSETS.logo} 
             alt="Logo" 
             className="w-full h-full object-contain"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         </motion.div>
         
