@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { 
   Menu, 
   X, 
   ChevronDown, 
-  Trophy,
-  ArrowRight,
-  Check,
-  LogOut
+  Trophy, 
+  ArrowRight, 
+  Check, 
+  LogOut 
 } from 'lucide-react';
 
 /**
@@ -206,19 +206,31 @@ const Sidebar = () => {
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { scrollY } = useScroll();
+  
+  // Transform values from scroll position 0 to 100
+  const headerHeight = useTransform(scrollY, [0, 100], ["8rem", "4rem"]);
+  const logoSize = useTransform(scrollY, [0, 100], ["8rem", "4rem"]);
+  const logoY = useTransform(scrollY, [0, 100], ["1rem", "0rem"]); // translate-y-4 is 1rem
 
   return (
     <div className="lg:hidden fixed top-0 left-0 w-full z-[100]">
-      <div className="relative flex items-center justify-center h-32 bg-[#000080] text-white shadow-lg px-6 overflow-visible">
-        {/* Centered Large Logo */}
-        <div className="w-32 h-32 flex items-center justify-center translate-y-4">
+      <motion.div 
+        style={{ height: headerHeight }}
+        className="relative flex items-center justify-center bg-[#000080] text-white shadow-lg px-6 overflow-visible"
+      >
+        {/* Centered Large Logo with dynamic size and position */}
+        <motion.div 
+          style={{ width: logoSize, height: logoSize, y: logoY }}
+          className="flex items-center justify-center"
+        >
            <img 
             src={ASSETS.logo} 
             alt="Logo" 
             className="w-full h-full object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
-        </div>
+        </motion.div>
         
         {/* Menu Button on the Right */}
         <button 
@@ -227,7 +239,7 @@ const MobileNav = () => {
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-      </div>
+      </motion.div>
       
       <AnimatePresence>
         {isOpen && (
@@ -235,7 +247,7 @@ const MobileNav = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-32 left-0 w-full z-[105]"
+            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-full left-0 w-full z-[105]"
           >
             <button 
               onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
