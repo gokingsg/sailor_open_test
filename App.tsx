@@ -8,6 +8,9 @@ import {
   Trophy
 } from 'lucide-react';
 
+// @ts-ignore - 导入图片资源以确保 Vite 能够处理它
+import logo from './logo.png';
+
 // --- Types ---
 type RegistrationType = 'player' | 'volunteer';
 
@@ -132,9 +135,9 @@ const Sidebar = ({ activeSection, setActiveSection }: { activeSection: string, s
     <div className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-50">
       <div className="mb-20">
         <img 
-          src="logo.png" 
+          src={logo} 
           alt="Sailors Open 2026" 
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-contain block"
         />
       </div>
 
@@ -177,9 +180,9 @@ const MobileNav = ({ activeSection, setActiveSection }: { activeSection: string,
       <div className="flex justify-between items-center p-6 bg-[#000080] text-white">
         <div className="w-16 h-16">
            <img 
-            src="logo.png" 
+            src={logo} 
             alt="Logo" 
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain block"
           />
         </div>
         <button onClick={() => setIsOpen(!isOpen)} className="p-2">
