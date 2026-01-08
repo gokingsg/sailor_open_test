@@ -8,8 +8,16 @@ import {
   Trophy
 } from 'lucide-react';
 
-// @ts-ignore - 导入图片资源以确保 Vite 能够处理它
-import logo from './logo.png';
+/**
+ * ASSET INSTRUCTIONS:
+ * 1. Create a folder named 'public' in your project root.
+ * 2. Move 'logo.png' into the 'public' folder.
+ * 3. (Optional) Move your wave graphic into 'public' and name it 'wave-graphics.png'.
+ */
+const ASSETS = {
+  logo: "/logo.png",
+  wave: "https://res.cloudinary.com/dfm67v8v3/image/upload/v1740051187/Wave_Graphics_p7e5u6.png" // You can change this to "/wave-graphics.png" once uploaded to public/
+};
 
 // --- Types ---
 type RegistrationType = 'player' | 'volunteer';
@@ -135,9 +143,13 @@ const Sidebar = ({ activeSection, setActiveSection }: { activeSection: string, s
     <div className="hidden lg:flex flex-col w-80 h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-50">
       <div className="mb-20">
         <img 
-          src={logo} 
+          src={ASSETS.logo} 
           alt="Sailors Open 2026" 
           className="w-full h-auto object-contain block"
+          onError={(e) => {
+            // Fallback if logo is missing
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
         />
       </div>
 
@@ -180,9 +192,12 @@ const MobileNav = ({ activeSection, setActiveSection }: { activeSection: string,
       <div className="flex justify-between items-center p-6 bg-[#000080] text-white">
         <div className="w-16 h-16">
            <img 
-            src={logo} 
+            src={ASSETS.logo} 
             alt="Logo" 
             className="w-full h-full object-contain block"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
           />
         </div>
         <button onClick={() => setIsOpen(!isOpen)} className="p-2">
@@ -239,7 +254,7 @@ const AboutSection = () => {
       
       <div className="mt-20 relative w-full h-40 lg:h-64 overflow-hidden rounded-[3rem]">
         <img 
-          src="https://res.cloudinary.com/dfm67v8v3/image/upload/v1740051187/Wave_Graphics_p7e5u6.png" 
+          src={ASSETS.wave} 
           alt="Wave Decoration" 
           className="w-full h-full object-cover"
         />
