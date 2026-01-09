@@ -401,7 +401,7 @@ const RegistrationFlow = () => {
                   </div>
                 </div>
 
-                <button type="submit" className="w-full py-5 bg-[#ff5e2c] hover:bg-[#e04d20] text-white rounded-xl font-black text-lg transition-all shadow-xl shadow-[#ff5e2c]/20 active:scale-95 mt-4">
+                <button type="submit" className="w-full py-5 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-black text-lg transition-all shadow-xl shadow-[#4c8bf5]/20 active:scale-95 mt-4">
                   Next
                 </button>
               </form>
@@ -440,7 +440,7 @@ const RegistrationFlow = () => {
                   Back
                 </button>
                 {currentQuestion.isMultiSelect && (
-                   <button onClick={() => currentQuestionIdx < QUESTIONS.length - 1 ? setCurrentQuestionIdx(v => v + 1) : setFlowStep('success')} className="px-10 py-4 bg-[#4c8bf5] text-white rounded-xl font-bold shadow-lg">
+                   <button onClick={() => currentQuestionIdx < QUESTIONS.length - 1 ? setCurrentQuestionIdx(v => v + 1) : setFlowStep('success')} className="px-10 py-4 bg-[#4c8bf5] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
                     {currentQuestionIdx === QUESTIONS.length - 1 ? 'Finish' : 'Next'}
                    </button>
                 )}
@@ -460,7 +460,7 @@ const RegistrationFlow = () => {
               </div>
               <h2 className="text-3xl font-black text-[#000080] mb-4">You're All Set!</h2>
               <p className="text-slate-500 mb-8 leading-relaxed">Registration complete for: <span className="font-bold text-[#000080]">{selectedCategories.join(', ')}</span>. We'll analyze your level and notify you soon.</p>
-              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); }} className="px-10 py-4 bg-[#4c8bf5] text-white rounded-xl font-bold shadow-lg">
+              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); }} className="px-10 py-4 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
                 Start Over
               </button>
             </motion.div>
