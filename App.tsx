@@ -40,8 +40,7 @@ const CATEGORIES = [
   "Men's Singles",
   "Women's Singles",
   "Men's Doubles",
-  "Women's Doubles",
-  "Mixed Doubles"
+  "Women's Doubles"
 ];
 
 const QUESTIONS: MatchmakerQuestion[] = [
@@ -373,11 +372,7 @@ const RegistrationFlow = () => {
                     <div className="relative">
                       <select required className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl appearance-none focus:ring-2 focus:ring-[#4c8bf5] outline-none">
                         <option value="">Select Office</option>
-                        <option>Singapore (Galaxis)</option>
-                        <option>Singapore (Solaris)</option>
-                        <option>Shenzhen</option>
-                        <option>Bangkok</option>
-                        <option>Ho Chi Minh City</option>
+                        <option>Singapore</option>
                       </select>
                       <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     </div>
