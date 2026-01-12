@@ -8,7 +8,8 @@ import {
   Trophy, 
   ArrowRight, 
   Check, 
-  LogOut 
+  LogOut,
+  Mail
 } from 'lucide-react';
 
 /**
@@ -194,10 +195,6 @@ const Sidebar = () => {
           About
         </button>
       </nav>
-
-      <div className="relative z-10 mt-auto opacity-30 text-sm font-medium">
-        © 2026 Sailors Open
-      </div>
     </div>
   );
 };
@@ -266,7 +263,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="h-[calc(100vh-12rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-8 lg:py-16 text-center">
+    <section className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-8 lg:py-16 text-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -277,8 +274,8 @@ const AboutSection = () => {
         <h1 className="text-4xl lg:text-8xl font-black text-[#000080] mb-6 lg:mb-8 leading-tight">
           About Sailors Open
         </h1>
-        <p className="text-lg lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-10 lg:mb-12 max-w-2xl mx-auto">
-          The company-wide tennis tournament. Take a break, have fun, and get to know fellow Sailors. Open to all skill levels!
+        <p className="text-lg lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-10 lg:mb-12 max-w-3xl mx-auto">
+          The company-wide tennis tournament. The company-wide tennis tournament. Get moving, build strength, and connect with fellow Sailors. Open to all skill levels!
         </p>
         
         <div className="flex justify-center">
@@ -291,7 +288,40 @@ const AboutSection = () => {
           </button>
         </div>
       </motion.div>
+
+      {/* Repositioned "more details" further down */}
+      <motion.p 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="absolute bottom-10 lg:bottom-16 left-1/2 -translate-x-1/2 text-slate-400 text-sm font-medium tracking-wide"
+      >
+        more details coming soon...
+      </motion.p>
     </section>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="w-full bg-white border-t border-slate-100 py-12 lg:py-16 px-6 lg:px-24 text-center">
+      <div className="max-w-7xl mx-auto flex flex-col items-center gap-6">
+        <div className="flex items-center justify-center gap-3 text-slate-400">
+          <Mail size={18} />
+          <span className="text-sm font-bold uppercase tracking-widest">Contact Us</span>
+        </div>
+        <a 
+          href="mailto:sailorstennis@sea.com" 
+          className="text-xl lg:text-2xl font-black text-[#000080] hover:text-[#4c8bf5] transition-colors"
+        >
+          sailorstennis@sea.com
+        </a>
+        <div className="h-px w-20 bg-slate-100 my-2" />
+        <p className="text-slate-400 text-xs font-medium">
+          © 2026 Sailors Open Tennis Tournament. All rights reserved.
+        </p>
+      </div>
+    </footer>
   );
 };
 
@@ -300,9 +330,12 @@ const RegistrationFlow = () => {
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [partnerEmail, setPartnerEmail] = useState('');
 
   const currentQuestion = QUESTIONS[currentQuestionIdx];
   const matchmakerProgress = ((currentQuestionIdx + 1) / QUESTIONS.length) * 100;
+
+  const isDoublesSelected = selectedCategories.some(cat => cat.toLowerCase().includes('doubles'));
 
   const handleCategoryToggle = (cat: string) => {
     setSelectedCategories(prev => 
@@ -381,7 +414,7 @@ const RegistrationFlow = () => {
                   {/* Category Multi-Select */}
                   <div>
                     <label className="block text-sm font-bold text-[#000080] mb-4">Categories (Select all you wish to join)</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                       {CATEGORIES.map(cat => (
                         <button
                           key={cat}
@@ -398,6 +431,30 @@ const RegistrationFlow = () => {
                         </button>
                       ))}
                     </div>
+
+                    {/* Conditional Doubles Partner Input with fixed Focus Ring clipping */}
+                    <AnimatePresence>
+                      {isDoublesSelected && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                          animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
+                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                          // Added padding and negative margin to prevent focus ring clipping from overflow-hidden
+                          className="overflow-hidden px-1 -mx-1 pb-1"
+                        >
+                          <label className="block text-sm font-bold text-[#000080] mb-2">
+                            Partner's Sea Email Address <span className="text-slate-400 font-medium">(Optional)</span>
+                          </label>
+                          <input 
+                            type="email" 
+                            value={partnerEmail}
+                            onChange={(e) => setPartnerEmail(e.target.value)}
+                            placeholder="Partner.Email@sea.com" 
+                            className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 
@@ -459,8 +516,8 @@ const RegistrationFlow = () => {
                 <Trophy size={40} />
               </div>
               <h2 className="text-3xl font-black text-[#000080] mb-4">You're All Set!</h2>
-              <p className="text-slate-500 mb-8 leading-relaxed">Registration complete for: <span className="font-bold text-[#000080]">{selectedCategories.join(', ')}</span>. We'll analyze your level and notify you soon.</p>
-              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); }} className="px-10 py-4 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
+              <p className="text-slate-500 mb-8 leading-relaxed">We'll analyze your level and successful registration will be notified shortly</p>
+              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); setPartnerEmail(''); }} className="px-10 py-4 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
                 Start Over
               </button>
             </motion.div>
@@ -483,6 +540,7 @@ export default function App() {
         <div className="flex-1 flex flex-col">
           <AboutSection />
           <RegistrationFlow />
+          <Footer />
         </div>
       </div>
 
