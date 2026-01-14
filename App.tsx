@@ -50,18 +50,16 @@ const CATEGORIES = [
 
 const LOCATIONS: Record<string, string[]> = {
   "China": ["Shenzhen", "Shanghai", "Beijing"],
-  "Indonesia": ["Jakarta", "Yogyakarta", "Solo"],
+  "Indonesia": ["Jakarta", "Yogyakarta"],
   "Singapore": ["Singapore"],
   "Vietnam": ["Ho Chi Minh City", "Hanoi"],
-  "Philippines": ["Mandaluyong", "Quezon City"],
+  "Philippines": ["Manila"],
   "Brazil": ["Sao Paulo"],
   "Thailand": ["Bangkok"],
-  "Taiwan": ["Taipei", "Taichung"],
-  "Malaysia": ["Kuala Lumpur", "Selangor"],
+  "Taiwan": ["Taipei"],
+  "Malaysia": ["Kuala Lumpur"],
   "Korea": ["Seoul"],
-  "Mexico": ["Mexico City"],
-  "India": ["Bangalore", "Pune"],
-  "Morocco": ["Casablanca"]
+  "Mexico": ["Mexico City"]
 };
 
 const QUESTIONS: MatchmakerQuestion[] = [
@@ -311,7 +309,7 @@ const AboutSection = () => {
         className="max-w-4xl"
       >
         <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
-          About the Sailors Open Tennis Tournament
+          About Sailors Open
         </h1>
         <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 lg:mb-16 space-y-6 max-w-3xl text-left">
           <p>
