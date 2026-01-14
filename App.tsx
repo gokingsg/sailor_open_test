@@ -303,7 +303,7 @@ const AboutSection = () => {
           </p>
         </div>
         
-        <div className="flex justify-start">
+        <div className="flex justify-center">
           <button 
             onClick={scrollToRegister}
             className="group flex items-center gap-4 px-10 py-5 lg:px-12 lg:py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-xl lg:text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
