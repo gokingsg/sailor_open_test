@@ -280,7 +280,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="relative h-[calc(100vh-12rem)] lg:h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-8 lg:py-16 text-center">
+    <section className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24 text-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -288,12 +288,20 @@ const AboutSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-4xl"
       >
-        <h1 className="text-4xl lg:text-8xl font-black text-[#000080] mb-6 lg:mb-8 leading-tight">
-          About Sailors Open
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight">
+          About the Sailors Open Tennis Tournament
         </h1>
-        <p className="text-lg lg:text-2xl text-[#000080]/70 leading-relaxed font-medium mb-10 lg:mb-12 max-w-3xl mx-auto">
-          The company-wide tennis tournament. The company-wide tennis tournament. Get moving, build strength, and connect with fellow Sailors. Open to all skill levels!
-        </p>
+        <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 lg:mb-16 space-y-6 max-w-3xl mx-auto">
+          <p>
+            Welcome to the Sailors Open, where the spirit of competition meets the rush of the sea breeze! Feel the electric energy from the first serve. Every match crackles with intensity—the sharp pop of a perfectly struck ball, the swift scrape of shoes pivoting on the court. Here, powerful baseline drives meet delicate drop shots, and fearless net-chargers duel with unshakable defenders. It’s a fast-paced, thrilling showcase of skill, grit, and strategic brilliance.
+          </p>
+          <p>
+            But the Sailors Open is more than scores and spin. It’s the palpable camaraderie between competitors, the shared respect after a hard-fought battle, and the vibrant atmosphere that surrounds the grounds. Whether you’re a player pushing your limits or a fan soaking in the action, the Sailors Open is a vibrant, sporty spectacle. It’s where personal bests are forged, unforgettable moments are born, and the pure, exhilarating love of the game is on full display.
+          </p>
+          <p className="font-black text-[#000080]">
+            Come for the competition. Stay for the thrill.
+          </p>
+        </div>
         
         <div className="flex justify-center">
           <button 
@@ -306,12 +314,11 @@ const AboutSection = () => {
         </div>
       </motion.div>
 
-      {/* Repositioned "more details" further down */}
       <motion.p 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
-        className="absolute bottom-10 lg:bottom-16 left-1/2 -translate-x-1/2 text-slate-400 text-sm font-medium tracking-wide"
+        className="mt-16 text-slate-400 text-sm font-medium tracking-wide"
       >
         more details coming soon...
       </motion.p>
