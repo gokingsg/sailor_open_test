@@ -280,7 +280,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24 text-center">
+    <section className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -288,10 +288,10 @@ const AboutSection = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-4xl"
       >
-        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight">
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
           About the Sailors Open Tennis Tournament
         </h1>
-        <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 lg:mb-16 space-y-6 max-w-3xl mx-auto">
+        <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 lg:mb-16 space-y-6 max-w-3xl text-left">
           <p>
             Welcome to the Sailors Open, where the spirit of competition meets the rush of the sea breeze! Feel the electric energy from the first serve. Every match crackles with intensity—the sharp pop of a perfectly struck ball, the swift scrape of shoes pivoting on the court. Here, powerful baseline drives meet delicate drop shots, and fearless net-chargers duel with unshakable defenders. It’s a fast-paced, thrilling showcase of skill, grit, and strategic brilliance.
           </p>
@@ -303,7 +303,7 @@ const AboutSection = () => {
           </p>
         </div>
         
-        <div className="flex justify-center">
+        <div className="flex justify-start">
           <button 
             onClick={scrollToRegister}
             className="group flex items-center gap-4 px-10 py-5 lg:px-12 lg:py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-xl lg:text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
@@ -318,7 +318,7 @@ const AboutSection = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}
-        className="mt-16 text-slate-400 text-sm font-medium tracking-wide"
+        className="mt-16 text-slate-400 text-sm font-medium tracking-wide text-center w-full"
       >
         more details coming soon...
       </motion.p>
