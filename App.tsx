@@ -44,9 +44,21 @@ const CATEGORIES = [
   "Women's Doubles"
 ];
 
-// Associated locations mapping
+// Associated locations mapping from the provided image
 const LOCATIONS: Record<string, string[]> = {
-  "Singapore": ["Singapore"]
+  "China": ["Shenzhen", "Shanghai", "Beijing"],
+  "Indonesia": ["Jakarta", "Yogyakarta", "Solo"],
+  "Singapore": ["Singapore"],
+  "Vietnam": ["Ho Chi Minh City", "Hanoi"],
+  "Philippines": ["Mandaluyong", "Quezon City"],
+  "Brazil": ["Sao Paulo"],
+  "Thailand": ["Bangkok"],
+  "Taiwan": ["Taipei", "Taichung"],
+  "Malaysia": ["Kuala Lumpur", "Selangor"],
+  "Korea": ["Seoul"],
+  "Mexico": ["Mexico City"],
+  "India": ["Bangalore", "Pune"],
+  "Morocco": ["Casablanca"]
 };
 
 const QUESTIONS: MatchmakerQuestion[] = [
