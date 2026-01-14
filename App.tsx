@@ -9,7 +9,11 @@ import {
   ArrowRight, 
   Check, 
   LogOut,
-  Mail
+  Mail,
+  Info,
+  BookOpen,
+  UserPlus,
+  HelpCircle
 } from 'lucide-react';
 
 /**
@@ -44,7 +48,6 @@ const CATEGORIES = [
   "Women's Doubles"
 ];
 
-// Associated locations mapping from the provided image
 const LOCATIONS: Record<string, string[]> = {
   "China": ["Shenzhen", "Shanghai", "Beijing"],
   "Indonesia": ["Jakarta", "Yogyakarta", "Solo"],
@@ -179,13 +182,18 @@ const UserProfile = () => {
 
 const TopHeader = () => {
   return (
-    <header className="w-full h-16 lg:h-20 bg-white flex items-center justify-end px-6 lg:px-10 z-[80]">
+    <header className="w-full h-16 lg:h-20 bg-white flex items-center justify-end px-6 lg:px-10 z-[80] fixed top-0 right-0 lg:static">
       <UserProfile />
     </header>
   );
 };
 
 const Sidebar = () => {
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div 
       className="hidden lg:flex flex-col w-[340px] h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden shadow-2xl"
@@ -196,7 +204,7 @@ const Sidebar = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="relative z-10 mb-16">
+      <div className="relative z-10 mb-16 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <img 
           src={ASSETS.logo} 
           alt="Sailors Open 2026" 
@@ -204,12 +212,27 @@ const Sidebar = () => {
         />
       </div>
 
-      <nav className="relative z-10 flex flex-col gap-10">
+      <nav className="relative z-10 flex flex-col gap-8">
         <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="text-xl font-bold transition-all text-left w-fit sidebar-link-active"
+          onClick={() => scrollTo('about-section')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
         >
+          <Info size={20} className="text-[#4c8bf5]" />
           About
+        </button>
+        <button 
+          onClick={() => scrollTo('rules-section')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
+        >
+          <BookOpen size={20} className="text-[#4c8bf5]" />
+          Rules
+        </button>
+        <button 
+          onClick={() => scrollTo('registration-flow')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
+        >
+          <UserPlus size={20} className="text-[#4c8bf5]" />
+          Register
         </button>
       </nav>
     </div>
@@ -219,11 +242,15 @@ const Sidebar = () => {
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { scrollY } = useScroll();
-  
-  // Transform values from scroll position 0 to 100
   const headerHeight = useTransform(scrollY, [0, 100], ["8rem", "4rem"]);
   const logoSize = useTransform(scrollY, [0, 100], ["8rem", "4rem"]);
-  const logoY = useTransform(scrollY, [0, 100], ["1rem", "0rem"]); // translate-y-4 is 1rem
+  const logoY = useTransform(scrollY, [0, 100], ["1rem", "0rem"]);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setIsOpen(false);
+  };
 
   return (
     <div className="lg:hidden fixed top-0 left-0 w-full z-[100]">
@@ -231,23 +258,15 @@ const MobileNav = () => {
         style={{ height: headerHeight }}
         className="relative flex items-center justify-center bg-[#000080] text-white shadow-lg px-6 overflow-visible"
       >
-        {/* Centered Large Logo with dynamic size and position */}
         <motion.div 
           style={{ width: logoSize, height: logoSize, y: logoY }}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center cursor-pointer"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-           <img 
-            src={ASSETS.logo} 
-            alt="Logo" 
-            className="w-full h-full object-contain"
-          />
+           <img src={ASSETS.logo} alt="Logo" className="w-full h-full object-contain" />
         </motion.div>
         
-        {/* Menu Button on the Right */}
-        <button 
-          onClick={() => setIsOpen(!isOpen)} 
-          className="absolute right-6 p-2 z-[110]"
-        >
+        <button onClick={() => setIsOpen(!isOpen)} className="absolute right-6 p-2 z-[110]">
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </motion.div>
@@ -258,13 +277,16 @@ const MobileNav = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="bg-[#000080] p-6 text-white flex flex-col gap-6 shadow-2xl absolute top-full left-0 w-full z-[105]"
+            className="bg-[#000080] p-8 text-white flex flex-col gap-8 shadow-2xl absolute top-full left-0 w-full z-[105]"
           >
-            <button 
-              onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setIsOpen(false); }}
-              className="text-xl font-bold"
-            >
-              About
+            <button onClick={() => scrollTo('about-section')} className="text-2xl font-bold flex items-center gap-4">
+              <Info className="text-[#4c8bf5]" /> About
+            </button>
+            <button onClick={() => scrollTo('rules-section')} className="text-2xl font-bold flex items-center gap-4">
+              <BookOpen className="text-[#4c8bf5]" /> Rules
+            </button>
+            <button onClick={() => scrollTo('registration-flow')} className="text-2xl font-bold flex items-center gap-4">
+              <UserPlus className="text-[#4c8bf5]" /> Register
             </button>
           </motion.div>
         )}
@@ -280,7 +302,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24">
+    <section id="about-section" className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -313,39 +335,133 @@ const AboutSection = () => {
           </button>
         </div>
       </motion.div>
-
-      <motion.p 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="mt-16 text-slate-400 text-sm font-medium tracking-wide text-center w-full"
-      >
-        more details coming soon...
-      </motion.p>
     </section>
   );
 };
 
-const Footer = () => {
+const RuleTable = ({ title, data }: { title: string, data: { label: string, value: string }[] }) => (
+  <div className="mb-10 w-full">
+    <h4 className="text-xl font-black text-[#4c8bf5] mb-4 uppercase tracking-widest">{title}</h4>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+      <table className="w-full text-left">
+        <tbody className="divide-y divide-slate-100 bg-white">
+          {data.map((row, idx) => (
+            <tr key={idx} className="hover:bg-slate-50 transition-colors">
+              <td className="px-6 py-4 font-bold text-[#000080] border-r border-slate-100 bg-slate-50/50 w-1/3">
+                {row.label}
+              </td>
+              <td className="px-6 py-4 text-slate-600 font-medium">
+                {row.value}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+const RulesSection = () => {
   return (
-    <footer className="w-full bg-white border-t border-slate-100 py-12 lg:py-16 px-6 lg:px-24 text-center">
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-6">
-        <div className="flex items-center justify-center gap-3 text-slate-400">
-          <Mail size={18} />
-          <span className="text-sm font-bold uppercase tracking-widest">Contact Us</span>
-        </div>
-        <a 
-          href="mailto:sailorstennis@sea.com" 
-          className="text-xl lg:text-2xl font-black text-[#000080] hover:text-[#4c8bf5] transition-colors"
-        >
-          sailorstennis@sea.com
-        </a>
-        <div className="h-px w-20 bg-slate-100 my-2" />
-        <p className="text-slate-400 text-xs font-medium">
-          © 2026 Sailors Open Tennis Tournament. All rights reserved.
+    <section id="rules-section" className="relative min-h-screen px-6 lg:px-24 py-16 lg:py-24 bg-slate-50">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-4xl mx-auto"
+      >
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
+          MATCH RULES
+        </h1>
+        <p className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 text-left">
+          Tennis scoring can feel like a different language, but it’s easy once you get the rhythm! Here is how you get from your first serve to a winning set:
         </p>
-      </div>
-    </footer>
+
+        {/* 1. Scoring a Game */}
+        <RuleTable 
+          title="1. Scoring a 'Game' (The 15-30-40 System)"
+          data={[
+            { label: "Description", value: "Think of a game as a race to 4 points. Instead of 1, 2, 3, 4, we use these traditional names:" },
+            { label: "0 Points", value: "\"Love\" (as in, we play for the love of the game!)" },
+            { label: "1 Point", value: "15" },
+            { label: "2 Points", value: "30" },
+            { label: "3 Points", value: "40" },
+            { label: "4 Points", value: "Game Over! (You win that game)" }
+          ]}
+        />
+
+        {/* 2. What is Deuce */}
+        <RuleTable 
+          title="2. What is 'Deuce'?"
+          data={[
+            { label: "Standard Rule", value: "If both players reach 40-40, it is called a Deuce." },
+            { label: "Sudden Death", value: "To keep things moving and fun, to win from here we use 'Sudden Death.' The next point wins the game—no long deuce battles!" }
+          ]}
+        />
+
+        {/* 3. Winning a Set */}
+        <RuleTable 
+          title="3. Winning a 'Set'"
+          data={[
+            { label: "General Win", value: "To win a set, you generally need to win 6 games." },
+            { label: "Tie-breaker", value: "If the score reaches 5-5, you play one final 'Tie-break' game to decide who wins the set 6-5." },
+            { label: "3rd Set Super Tie-breaker", value: "If the match goes into the 3rd set, the first player who reaches the score of 10 wins the set." }
+          ]}
+        />
+
+        {/* 4. Winning the Match */}
+        <RuleTable 
+          title="4. Winning the Match"
+          data={[
+            { label: "Format", value: "Our matches are 'Best of 3' sets." },
+            { label: "Requirement", value: "This means the first person or team to win 2 sets is the winner of the match." }
+          ]}
+        />
+
+        {/* 5. Quick Court Rules */}
+        <RuleTable 
+          title="5. Quick Court Rules for Beginners"
+          data={[
+            { label: "In or Out?", value: "If the ball touches any part of the white line, it is IN." },
+            { label: "The Serve", value: "You get two tries to hit the ball into the diagonal box opposite you. If you miss both, your opponent gets the point." }
+          ]}
+        />
+
+        {/* LEAGUE RULES HEADER */}
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mt-24 mb-8 lg:mb-12 leading-tight text-left">
+          LEAGUE RULES
+        </h1>
+
+        <RuleTable 
+          title="General Conduct"
+          data={[
+            { label: "Umpiring", value: "Matches are self-umpired and should be conducted in the spirit of fair play." },
+            { label: "Scoring", value: "The winner receives 3 points, the loser receives 1 participation point" },
+            { label: "Liability", value: "Players compete at their own risk, and it is the player's responsibility to ensure any courts used are safe for play. By entering you agree to all terms as outlined in the competition rules & regulations." }
+          ]}
+        />
+
+        <h1 className="text-3xl lg:text-5xl font-black text-[#000080] mt-16 mb-8 text-left uppercase tracking-tight">
+          FAQs
+        </h1>
+
+        <RuleTable 
+          title="Incomplete Matches"
+          data={[
+            { label: "Question", value: "What happens when a match is NOT completed?" },
+            { label: "Rule", value: "Incomplete matches and Retirements: The winner gets 3 points, and the loser gets 1 participation point" }
+          ]}
+        />
+
+        <RuleTable 
+          title="Walkovers & Withdrawals"
+          data={[
+            { label: "Winner Reward", value: "The winner gets 3 points, and the loser gets 0 points" },
+            { label: "Claiming Rule", value: "Walkovers can only be claimed when the match is confirmed and cancelled within 24 hours of the start time." }
+          ]}
+        />
+      </motion.div>
+    </section>
   );
 };
 
@@ -357,7 +473,6 @@ const RegistrationFlow = () => {
   const [partnerName, setPartnerName] = useState('');
   const [partnerEmail, setPartnerEmail] = useState('');
   
-  // Location state
   const [selectedCountry, setSelectedCountry] = useState('Singapore');
   const [selectedCity, setSelectedCity] = useState('Singapore');
 
@@ -368,7 +483,6 @@ const RegistrationFlow = () => {
 
   const handleCountryChange = (country: string) => {
     setSelectedCountry(country);
-    // Auto-select first city of selected country
     if (LOCATIONS[country]) {
       setSelectedCity(LOCATIONS[country][0]);
     } else {
@@ -444,7 +558,6 @@ const RegistrationFlow = () => {
                     <input required type="email" placeholder="Jane.W@sea.com" className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" />
                   </div>
 
-                  {/* Split Location into Country and City */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-[#000080] mb-2">Country</label>
@@ -483,7 +596,6 @@ const RegistrationFlow = () => {
                     </div>
                   </div>
                   
-                  {/* Category Multi-Select */}
                   <div>
                     <label className="block text-sm font-bold text-[#000080] mb-4">Categories (Select all you wish to join)</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -504,7 +616,6 @@ const RegistrationFlow = () => {
                       ))}
                     </div>
 
-                    {/* Conditional Doubles Partner Input (Mandatory) */}
                     <AnimatePresence>
                       {isDoublesSelected && (
                         <motion.div
@@ -514,30 +625,12 @@ const RegistrationFlow = () => {
                           className="overflow-hidden px-1 -mx-1 pb-1 space-y-6"
                         >
                           <div>
-                            <label className="block text-sm font-bold text-[#000080] mb-2">
-                              Partner's Full Name
-                            </label>
-                            <input 
-                              required
-                              type="text" 
-                              value={partnerName}
-                              onChange={(e) => setPartnerName(e.target.value)}
-                              placeholder="Partner's Name" 
-                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
-                            />
+                            <label className="block text-sm font-bold text-[#000080] mb-2">Partner's Full Name</label>
+                            <input required type="text" value={partnerName} onChange={(e) => setPartnerName(e.target.value)} placeholder="Partner's Name" className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" />
                           </div>
                           <div>
-                            <label className="block text-sm font-bold text-[#000080] mb-2">
-                              Partner's Sea Email Address
-                            </label>
-                            <input 
-                              required
-                              type="email" 
-                              value={partnerEmail}
-                              onChange={(e) => setPartnerEmail(e.target.value)}
-                              placeholder="Partner.Email@sea.com" 
-                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
-                            />
+                            <label className="block text-sm font-bold text-[#000080] mb-2">Partner's Sea Email Address</label>
+                            <input required type="email" value={partnerEmail} onChange={(e) => setPartnerEmail(e.target.value)} placeholder="Partner.Email@sea.com" className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" />
                           </div>
                         </motion.div>
                       )}
@@ -615,17 +708,37 @@ const RegistrationFlow = () => {
   );
 };
 
+const Footer = () => {
+  return (
+    <footer className="w-full bg-white border-t border-slate-100 py-12 lg:py-16 px-6 lg:px-24 text-center">
+      <div className="max-w-7xl mx-auto flex flex-col items-center gap-6">
+        <div className="flex items-center justify-center gap-3 text-slate-400">
+          <Mail size={18} />
+          <span className="text-sm font-bold uppercase tracking-widest">Contact Us</span>
+        </div>
+        <a href="mailto:sailorstennis@sea.com" className="text-xl lg:text-2xl font-black text-[#000080] hover:text-[#4c8bf5] transition-colors">
+          sailorstennis@sea.com
+        </a>
+        <div className="h-px w-20 bg-slate-100 my-2" />
+        <p className="text-slate-400 text-xs font-medium">
+          © 2026 Sailors Open Tennis Tournament. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+};
+
 export default function App() {
   return (
     <main className="min-h-screen bg-white flex flex-col lg:flex-row relative">
       <Sidebar />
       <MobileNav />
       
-      {/* Container for scrolling content */}
       <div className="flex-1 lg:ml-[340px] relative min-h-screen flex flex-col pt-32 lg:pt-0">
         <TopHeader />
         <div className="flex-1 flex flex-col">
           <AboutSection />
+          <RulesSection />
           <RegistrationFlow />
           <Footer />
         </div>
