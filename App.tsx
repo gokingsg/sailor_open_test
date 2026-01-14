@@ -558,7 +558,7 @@ const RegistrationFlow = () => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-bold text-[#000080] mb-2">Country</label>
+                      <label className="block text-sm font-bold text-[#000080] mb-2">Market</label>
                       <div className="relative">
                         <select 
                           required 
@@ -566,7 +566,7 @@ const RegistrationFlow = () => {
                           onChange={(e) => handleCountryChange(e.target.value)}
                           className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl appearance-none focus:ring-2 focus:ring-[#4c8bf5] outline-none"
                         >
-                          <option value="">Select Country</option>
+                          <option value="">Select Market</option>
                           {Object.keys(LOCATIONS).map(country => (
                             <option key={country} value={country}>{country}</option>
                           ))}
@@ -575,7 +575,7 @@ const RegistrationFlow = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-[#000080] mb-2">City</label>
+                      <label className="block text-sm font-bold text-[#000080] mb-2">City (Match Location)</label>
                       <div className="relative">
                         <select 
                           required 
