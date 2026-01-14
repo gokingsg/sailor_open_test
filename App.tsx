@@ -44,6 +44,11 @@ const CATEGORIES = [
   "Women's Doubles"
 ];
 
+// Associated locations mapping
+const LOCATIONS: Record<string, string[]> = {
+  "Singapore": ["Singapore"]
+};
+
 const QUESTIONS: MatchmakerQuestion[] = [
   {
     id: 1,
@@ -330,12 +335,27 @@ const RegistrationFlow = () => {
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({});
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [partnerName, setPartnerName] = useState('');
   const [partnerEmail, setPartnerEmail] = useState('');
+  
+  // Location state
+  const [selectedCountry, setSelectedCountry] = useState('Singapore');
+  const [selectedCity, setSelectedCity] = useState('Singapore');
 
   const currentQuestion = QUESTIONS[currentQuestionIdx];
   const matchmakerProgress = ((currentQuestionIdx + 1) / QUESTIONS.length) * 100;
 
   const isDoublesSelected = selectedCategories.some(cat => cat.toLowerCase().includes('doubles'));
+
+  const handleCountryChange = (country: string) => {
+    setSelectedCountry(country);
+    // Auto-select first city of selected country
+    if (LOCATIONS[country]) {
+      setSelectedCity(LOCATIONS[country][0]);
+    } else {
+      setSelectedCity('');
+    }
+  };
 
   const handleCategoryToggle = (cat: string) => {
     setSelectedCategories(prev => 
@@ -347,6 +367,10 @@ const RegistrationFlow = () => {
     e.preventDefault();
     if (selectedCategories.length === 0) {
       alert("Please select at least one category to proceed.");
+      return;
+    }
+    if (!selectedCountry || !selectedCity) {
+      alert("Please select both country and city.");
       return;
     }
     setFlowStep('matchmaker');
@@ -400,14 +424,43 @@ const RegistrationFlow = () => {
                     <label className="block text-sm font-bold text-[#000080] mb-2">Sea Email Address</label>
                     <input required type="email" placeholder="Jane.W@sea.com" className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold text-[#000080] mb-2">Office Location</label>
-                    <div className="relative">
-                      <select required className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl appearance-none focus:ring-2 focus:ring-[#4c8bf5] outline-none">
-                        <option value="">Select Office</option>
-                        <option>Singapore</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+
+                  {/* Split Location into Country and City */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-bold text-[#000080] mb-2">Country</label>
+                      <div className="relative">
+                        <select 
+                          required 
+                          value={selectedCountry}
+                          onChange={(e) => handleCountryChange(e.target.value)}
+                          className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl appearance-none focus:ring-2 focus:ring-[#4c8bf5] outline-none"
+                        >
+                          <option value="">Select Country</option>
+                          {Object.keys(LOCATIONS).map(country => (
+                            <option key={country} value={country}>{country}</option>
+                          ))}
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-[#000080] mb-2">City</label>
+                      <div className="relative">
+                        <select 
+                          required 
+                          disabled={!selectedCountry}
+                          value={selectedCity}
+                          onChange={(e) => setSelectedCity(e.target.value)}
+                          className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl appearance-none focus:ring-2 focus:ring-[#4c8bf5] outline-none disabled:opacity-50"
+                        >
+                          <option value="">Select City</option>
+                          {selectedCountry && LOCATIONS[selectedCountry].map(city => (
+                            <option key={city} value={city}>{city}</option>
+                          ))}
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                      </div>
                     </div>
                   </div>
                   
@@ -432,26 +485,41 @@ const RegistrationFlow = () => {
                       ))}
                     </div>
 
-                    {/* Conditional Doubles Partner Input with fixed Focus Ring clipping */}
+                    {/* Conditional Doubles Partner Input (Mandatory) */}
                     <AnimatePresence>
                       {isDoublesSelected && (
                         <motion.div
                           initial={{ opacity: 0, height: 0, marginTop: 0 }}
                           animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
                           exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                          // Added padding and negative margin to prevent focus ring clipping from overflow-hidden
-                          className="overflow-hidden px-1 -mx-1 pb-1"
+                          className="overflow-hidden px-1 -mx-1 pb-1 space-y-6"
                         >
-                          <label className="block text-sm font-bold text-[#000080] mb-2">
-                            Partner's Sea Email Address <span className="text-slate-400 font-medium">(Optional)</span>
-                          </label>
-                          <input 
-                            type="email" 
-                            value={partnerEmail}
-                            onChange={(e) => setPartnerEmail(e.target.value)}
-                            placeholder="Partner.Email@sea.com" 
-                            className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
-                          />
+                          <div>
+                            <label className="block text-sm font-bold text-[#000080] mb-2">
+                              Partner's Full Name
+                            </label>
+                            <input 
+                              required
+                              type="text" 
+                              value={partnerName}
+                              onChange={(e) => setPartnerName(e.target.value)}
+                              placeholder="Partner's Name" 
+                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-bold text-[#000080] mb-2">
+                              Partner's Sea Email Address
+                            </label>
+                            <input 
+                              required
+                              type="email" 
+                              value={partnerEmail}
+                              onChange={(e) => setPartnerEmail(e.target.value)}
+                              placeholder="Partner.Email@sea.com" 
+                              className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-[#4c8bf5] outline-none transition-all" 
+                            />
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -517,7 +585,7 @@ const RegistrationFlow = () => {
               </div>
               <h2 className="text-3xl font-black text-[#000080] mb-4">You're All Set!</h2>
               <p className="text-slate-500 mb-8 leading-relaxed">We'll analyze your level and successful registration will be notified shortly</p>
-              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); setPartnerEmail(''); }} className="px-10 py-4 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
+              <button onClick={() => { setFlowStep('info'); setCurrentQuestionIdx(0); setAnswers({}); setSelectedCategories([]); setPartnerName(''); setPartnerEmail(''); setSelectedCountry('Singapore'); setSelectedCity('Singapore'); }} className="px-10 py-4 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-xl font-bold shadow-lg shadow-[#4c8bf5]/20 active:scale-95 transition-all">
                 Start Over
               </button>
             </motion.div>
