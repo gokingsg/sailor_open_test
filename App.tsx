@@ -596,30 +596,31 @@ const PrizesSection = () => {
         <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 bg-white">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-100">
-                <th className="px-8 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100">Position</th>
-                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Men's Singles</th>
-                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Men's Doubles</th>
-                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Women's Singles</th>
-                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider text-center">Women's Doubles</th>
+              <tr className="bg-[#d3e3f6]">
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Position</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Men's Singles</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Men's Doubles</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Women's Singles</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider text-center">Women's Doubles</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {PRIZES_DATA.map((entry, idx) => (
                 <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-8 py-6 font-black text-[#000080] text-lg border-r border-slate-100">{entry.position}</td>
-                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.mensSingles}</td>
-                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.mensDoubles}</td>
-                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.womensSingles}</td>
-                  <td className="px-6 py-6 font-bold text-slate-600 text-center text-lg">{entry.womensDoubles}</td>
+                  <td className="px-6 py-5 font-bold text-[#000080] border-r border-slate-50">{entry.position}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.mensSingles}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.mensDoubles}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.womensSingles}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 text-center">{entry.womensDoubles}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         
-        <div className="mt-8 flex items-center gap-2 text-slate-500 font-bold text-lg">
-          <p>* Prize amounts are in USD</p>
+        <div className="mt-8 flex items-center gap-2 text-slate-400 font-medium text-sm">
+          <Info size={14} />
+          <span>* Prize amounts are in USD</span>
         </div>
       </motion.div>
     </section>
