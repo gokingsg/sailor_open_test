@@ -15,7 +15,11 @@ import {
   UserPlus,
   BarChart3,
   Gift,
-  MessageSquare
+  MessageSquare,
+  Users,
+  Wind,
+  Smile,
+  Anchor
 } from 'lucide-react';
 
 /**
@@ -58,10 +62,10 @@ interface LeaderboardEntry {
 
 interface PrizeEntry {
   position: string;
-  mensSingles: number;
-  mensDoubles: number;
-  womensSingles: number;
-  womensDoubles: number;
+  mensSingles: string;
+  mensDoubles: string;
+  womensSingles: string;
+  womensDoubles: string;
 }
 
 interface ContactEntry {
@@ -153,10 +157,10 @@ const LEADERBOARD_DATA: LeaderboardEntry[] = [
 ];
 
 const PRIZES_DATA: PrizeEntry[] = [
-  { position: "1st", mensSingles: 100, mensDoubles: 100, womensSingles: 100, womensDoubles: 100 },
-  { position: "2nd", mensSingles: 80, mensDoubles: 80, womensSingles: 80, womensDoubles: 80 },
-  { position: "3rd", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
-  { position: "4th", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
+  { position: "1st", mensSingles: "$100", mensDoubles: "$100", womensSingles: "$100", womensDoubles: "$100" },
+  { position: "2nd", mensSingles: "$80", mensDoubles: "$80", womensSingles: "$80", womensDoubles: "$80" },
+  { position: "3rd", mensSingles: "$50", mensDoubles: "$50", womensSingles: "$50", womensDoubles: "$50" },
+  { position: "4th", mensSingles: "$50", mensDoubles: "$50", womensSingles: "$50", womensDoubles: "$50" },
 ];
 
 const CONTACT_DATA: ContactEntry[] = [
@@ -254,7 +258,7 @@ const Sidebar = () => {
 
   return (
     <div 
-      className="hidden lg:flex flex-col w-[340px] h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden shadow-2xl"
+      className="hidden lg:flex flex-col w-[300px] xl:w-[340px] h-screen fixed left-0 top-0 bg-[#000080] p-10 text-white z-[100] overflow-hidden shadow-2xl"
       style={{
         backgroundImage: `url(${ASSETS.sidebarPattern})`,
         backgroundSize: 'cover',
@@ -384,45 +388,148 @@ const MobileNav = () => {
 };
 
 const AboutSection = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
   const scrollToRegister = () => {
     const el = document.getElementById('registration-flow');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const sections = [
+    {
+      title: "ABOUT SAILORS OPEN",
+      content: "Welcome to the official home of the Sailors Open 2026—the inaugural tennis tournament where we trade our keyboards for rackets and our screens for the baseline!\n\nAt Sea, we know how to navigate the vast digital ocean with precision and drive. But even the most dedicated crew needs to drop anchor, recharge, and enjoy the breeze. The Sailors Open is more than just a tournament; it’s our collective \"breather,\" a vibrant celebration of our community, and a chance to smash some aces with colleagues you’ve only ever met on a video call.",
+      icon: null,
+    },
+    {
+      title: "Why Join the Voyage?",
+      subtitle: "Skill-Level-Zero-Friendly!",
+      content: "Whether you have a lightning-fast serve or you’ve never even held a racket, there is a place for you on our court. This is a Skill-Level-Zero-Friendly zone! Our goal isn't to find the next Grand Slam champion; it’s to foster the joy of movement and the power of connection.",
+      icon: null,
+    },
+    {
+      title: "Living Our Values",
+      subtitle: "One Rally at a Time",
+      content: "We’re bringing the Sea spirit to the playing courts. Here’s how our core values are guiding the tournament:",
+      values: [
+        { label: "We Serve (Aces)", desc: "On the court, we serve up “aces” and joy! This tournament is our way of serving the well-being of our greatest asset—you.", icon: "🎾" },
+        { label: "We Run (for Every Ball)", desc: "We run for every drop shot and chase every ball with relentless energy. It’s about moving our bodies and pushing our limits.", icon: "🏃" },
+        { label: "We Adapt (to Match Conditions)", desc: "Wind might shift, spin might be tricky, but Sailors find a way. We embrace the challenge with a smile.", icon: "🔄" },
+        { label: "We Commit (to the Final Match Point)", desc: "We play with integrity. When the score is tight and the sun is high, we dig deep and finish what we started.", icon: "🤝" },
+        { label: "We Stay Humble (Win or Lose)", desc: "Whether you win or miss entirely, we stay gracious. We celebrate great shots, laugh off misses, and end with a handshake.", icon: "🌱" }
+      ]
+    },
+    {
+      title: "What to Expect",
+      items: [
+        { title: "Joyful Moments", desc: "Music, refreshments, and high-fives are the priority.", icon: <Smile className="text-[#4c8bf5]" /> },
+        { title: "New Connections", desc: "Partner up with someone from a different department and expand your \"crew.\"", icon: <Users className="text-[#4c8bf5]" /> },
+        { title: "The Breather You Need", desc: "Physical activity is the best way to clear the mind and boost creativity.", icon: <Wind className="text-[#4c8bf5]" /> }
+      ]
+    },
+    {
+      title: "Ready to Set Sail?",
+      content: "The court is calling, and the energy is building. Don't worry about the scoreboard—just bring your energy, your team spirit, and your desire to have fun!",
+      cta: true,
+      closingText: "Registration closes soon. Don't miss the inaugural serve!",
+      slogan: "Sailors Open 2026: Work Hard, Play Harder, Stay Connected."
+    }
+  ];
+
   return (
-    <section id="about-section" className="relative min-h-[calc(100vh-12rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center px-6 lg:px-24 py-16 lg:py-24">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-4xl"
+    <section id="about-section" className="relative lg:h-[calc(100vh-5rem)] overflow-hidden bg-white">
+      {/* Scrollable container with vertical snapping */}
+      <div 
+        ref={containerRef}
+        className="h-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar"
       >
-        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
-          About Sailors Open
-        </h1>
-        <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 lg:mb-16 space-y-6 max-w-3xl text-left">
-          <p>
-            Welcome to the Sailors Open, where the spirit of competition meets the rush of the sea breeze! Feel the electric energy from the first serve. Every match crackles with intensity—the sharp pop of a perfectly struck ball, the swift scrape of shoes pivoting on the court. Here, powerful baseline drives meet delicate drop shots, and fearless net-chargers duel with unshakable defenders. It’s a fast-paced, thrilling showcase of skill, grit, and strategic brilliance.
-          </p>
-          <p>
-            But the Sailors Open is more than scores and spin. It’s the palpable camaraderie between competitors, the shared respect after a hard-fought battle, and the vibrant atmosphere that surrounds the grounds. Whether you’re a player pushing your limits or a fan soaking in the action, the Sailors Open is a vibrant, sporty spectacle. It’s where personal bests are forged, unforgettable moments are born, and the pure, exhilarating love of the game is on full display.
-          </p>
-          <p className="font-black text-[#000080]">
-            Come for the competition. Stay for the thrill.
-          </p>
-        </div>
-        
-        <div className="flex justify-center">
-          <button 
-            onClick={scrollToRegister}
-            className="group flex items-center gap-4 px-10 py-5 lg:px-12 lg:py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-3xl font-black text-xl lg:text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95"
+        {sections.map((section, idx) => (
+          <div 
+            key={idx}
+            className="h-full w-full snap-start flex flex-col justify-center px-6 lg:px-12 xl:px-24 py-16"
           >
-            Register Now
-            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={24} />
-          </button>
-        </div>
-      </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-screen-2xl mx-auto w-full"
+            >
+              <div className="flex items-center gap-4 mb-8">
+                {section.icon}
+                <h2 className="text-3xl lg:text-7xl font-black text-[#000080] leading-tight uppercase">
+                  {section.title}
+                </h2>
+              </div>
+              
+              {section.subtitle && (
+                <p className="text-xl lg:text-2xl font-bold text-[#4c8bf5] mb-8 leading-relaxed">
+                  {section.subtitle}
+                </p>
+              )}
+
+              {section.content && (
+                <div className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-8 whitespace-pre-line max-w-5xl">
+                  {section.content}
+                </div>
+              )}
+
+              {section.values && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
+                  {section.values.map((v, i) => (
+                    <div key={i} className="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 hover:shadow-lg transition-all group">
+                      <div className="text-3xl mb-4 transform group-hover:scale-110 transition-transform">{v.icon}</div>
+                      <h4 className="font-black text-[#000080] mb-2">{v.label}</h4>
+                      <p className="text-sm text-slate-500 font-medium leading-relaxed">{v.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {section.items && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {section.items.map((item, i) => (
+                    <div key={i} className="flex flex-col gap-4">
+                      <div className="p-4 bg-slate-50 rounded-2xl w-fit">
+                        {item.icon}
+                      </div>
+                      <h4 className="text-xl font-black text-[#000080]">{item.title}</h4>
+                      <p className="text-slate-500 font-medium">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {section.cta && (
+                <div className="flex flex-col items-center gap-10 mt-8">
+                   <button 
+                    onClick={scrollToRegister}
+                    className="group flex items-center gap-4 px-12 py-6 bg-[#4c8bf5] hover:bg-[#3b7ae4] text-white rounded-[2rem] font-black text-xl lg:text-2xl shadow-2xl shadow-[#4c8bf5]/40 transition-all hover:scale-105 active:scale-95 uppercase"
+                  >
+                    REGISTER NOW!
+                    <ArrowRight className="group-hover:translate-x-2 transition-transform" size={24} />
+                  </button>
+                  
+                  <div className="text-center space-y-6">
+                    <p className="text-slate-400 font-bold text-lg">{section.closingText}</p>
+                    <div className="h-px w-20 bg-slate-100 mx-auto" />
+                    <p className="text-[#000080] font-black text-2xl lg:text-3xl tracking-tight">
+                      {section.slogan}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        ))}
+      </div>
+      
+      {/* Scroll indicator for the section dots */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-10 hidden lg:flex">
+        {sections.map((_, i) => (
+           <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+        ))}
+      </div>
     </section>
   );
 };
@@ -451,17 +558,17 @@ const RuleTable = ({ title, data }: { title: string, data: { label: string, valu
 
 const RulesSection = () => {
   return (
-    <section id="rules-section" className="relative min-h-screen px-6 lg:px-24 py-16 lg:py-24 bg-slate-50">
+    <section id="rules-section" className="relative min-h-screen px-6 lg:px-12 xl:px-24 py-16 lg:py-24 bg-slate-50">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto"
+        className="max-w-screen-xl mx-auto"
       >
         <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
           MATCH RULES
         </h1>
-        <p className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 text-left">
+        <p className="text-base lg:text-xl text-[#000080]/70 leading-relaxed font-medium mb-12 text-left max-w-4xl">
           Tennis scoring can feel like a different language, but it’s easy once you get the rhythm! Here is how you get from your first serve to a winning set:
         </p>
 
@@ -555,19 +662,19 @@ const RulesSection = () => {
 
 const LeaderboardSection = () => {
   return (
-    <section id="leaderboard-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-white">
+    <section id="leaderboard-section" className="relative py-16 lg:py-24 px-6 lg:px-12 xl:px-24 bg-white">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto"
+        className="w-full mx-auto"
       >
         <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
           LEADERBOARD
         </h1>
         
         <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
               <tr className="bg-[#d3e3f6]">
                 <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Rank</th>
@@ -614,19 +721,22 @@ const LeaderboardSection = () => {
 
 const PrizesSection = () => {
   return (
-    <section id="prizes-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-slate-50">
+    <section id="prizes-section" className="relative py-16 lg:py-24 px-6 lg:px-12 xl:px-24 bg-slate-50">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto"
+        className="w-full mx-auto"
       >
-        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-4 leading-tight text-left">
           PRIZES
         </h1>
+        <h2 className="text-xl lg:text-3xl font-black text-[#000080] mb-8 lg:mb-12 text-left opacity-90">
+          City Level
+        </h2>
         
         <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 bg-white">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
               <tr className="bg-[#d3e3f6]">
                 <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Position</th>
@@ -661,12 +771,12 @@ const PrizesSection = () => {
 
 const ContactSection = () => {
   return (
-    <section id="contact-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-white">
+    <section id="contact-section" className="relative py-16 lg:py-24 px-6 lg:px-12 xl:px-24 bg-white">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-7xl mx-auto"
+        className="w-full mx-auto"
       >
         <div className="space-y-4 mb-12">
           <h1 className="text-3xl lg:text-5xl font-black text-[#000080] leading-tight text-left">
@@ -677,7 +787,7 @@ const ContactSection = () => {
         </div>
 
         <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-          <table className="w-full text-left border-collapse min-w-[900px]">
+          <table className="w-full text-left border-collapse min-w-[1000px]">
             <thead>
               <tr className="bg-[#d3e3f6]">
                 <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Market</th>
@@ -703,7 +813,7 @@ const ContactSection = () => {
           </table>
         </div>
 
-        <div className="mt-12 p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center">
+        <div className="mt-12 p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center max-w-screen-lg mx-auto">
           <p className="text-lg font-black text-[#000080]">
             For feedback on the website, please contact <a href="mailto:sailorstennis@sea.com" className="text-[#4c8bf5] hover:underline">sailorstennis@sea.com</a>
           </p>
@@ -800,7 +910,7 @@ const RegistrationFlow = () => {
   };
 
   return (
-    <section id="registration-flow" className="py-24 px-6 lg:px-24 bg-slate-50 min-h-screen flex items-center justify-center">
+    <section id="registration-flow" className="py-24 px-6 lg:px-12 xl:px-24 bg-slate-50 min-h-screen flex items-center justify-center">
       <div className="max-w-3xl w-full mx-auto">
         <AnimatePresence mode="wait">
           {flowStep === 'info' && (
@@ -976,7 +1086,7 @@ const RegistrationFlow = () => {
 const Footer = () => {
   return (
     <footer className="w-full bg-slate-50 border-t border-slate-100 py-12 px-6 lg:px-24 text-center">
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-4">
+      <div className="max-w-screen-2xl mx-auto flex flex-col items-center gap-4">
         <p className="text-slate-400 text-xs font-black uppercase tracking-widest">
           Sailors Open 2026
         </p>
@@ -994,7 +1104,7 @@ export default function App() {
       <Sidebar />
       <MobileNav />
       
-      <div className="flex-1 lg:ml-[340px] relative min-h-screen flex flex-col pt-32 lg:pt-0">
+      <div className="flex-1 lg:ml-[300px] xl:ml-[340px] relative min-h-screen flex flex-col pt-32 lg:pt-0">
         <TopHeader />
         <div className="flex-1 flex flex-col">
           <AboutSection />
