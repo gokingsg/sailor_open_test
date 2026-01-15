@@ -799,7 +799,7 @@ const PrizesSection = () => {
 
 const ContactSection = () => {
   return (
-    <section id="contact-section" className="relative py-16 lg:py-24 px-6 lg:px-12 xl:px-24 bg-white">
+    <section id="contact-section" className="relative py-16 lg:py-24 px-6 lg:px-12 xl:px-24 bg-slate-50">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -841,7 +841,7 @@ const ContactSection = () => {
           </table>
         </div>
 
-        <div className="mt-12 p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center max-w-screen-lg mx-auto">
+        <div className="mt-12 p-8 bg-white/50 rounded-3xl border border-slate-100 text-center max-w-screen-lg mx-auto">
           <p className="text-lg font-black text-[#000080]">
             For feedback on the website, please contact <a href="mailto:sailorstennis@sea.com" className="text-[#4c8bf5] hover:underline">sailorstennis@sea.com</a>
           </p>
@@ -938,7 +938,7 @@ const RegistrationFlow = () => {
   };
 
   return (
-    <section id="registration-flow" className="py-24 px-6 lg:px-12 xl:px-24 bg-slate-50 min-h-screen flex items-center justify-center">
+    <section id="registration-flow" className="py-24 px-6 lg:px-12 xl:px-24 bg-white min-h-screen flex items-center justify-center">
       <div className="max-w-3xl w-full mx-auto">
         <AnimatePresence mode="wait">
           {flowStep === 'info' && (
@@ -947,7 +947,7 @@ const RegistrationFlow = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-white rounded-[2rem] p-8 lg:p-12 card-shadow"
+              className="bg-white rounded-[2rem] p-8 lg:p-12 card-shadow border border-slate-50"
             >
               <h2 className="text-3xl font-black text-center text-[#000080] mb-10">Registration</h2>
               <form className="space-y-8" onSubmit={handleInfoSubmit}>
@@ -1054,7 +1054,7 @@ const RegistrationFlow = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-white rounded-[2rem] p-8 lg:p-12 card-shadow"
+              className="bg-white rounded-[2rem] p-8 lg:p-12 card-shadow border border-slate-50"
             >
               <h2 className="text-3xl font-black text-center text-[#000080] mb-8">Tennis Level Matchmaker</h2>
               <div className="w-full h-3 bg-slate-100 rounded-full mb-12 overflow-hidden">
@@ -1093,7 +1093,7 @@ const RegistrationFlow = () => {
               key="success"
               initial={{ opacity: 0, scale: 0.9 }} 
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-[2rem] p-12 text-center card-shadow"
+              className="bg-white rounded-[2rem] p-12 text-center card-shadow border border-slate-50"
             >
               <div className="w-20 h-20 bg-[#4c8bf5] text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl shadow-[#4c8bf5]/30">
                 <Trophy size={40} />
@@ -1113,7 +1113,7 @@ const RegistrationFlow = () => {
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-slate-50 border-t border-slate-100 py-12 px-6 lg:px-24 text-center">
+    <footer className="w-full bg-white border-t border-slate-100 py-12 px-6 lg:px-24 text-center">
       <div className="max-w-screen-2xl mx-auto flex flex-col items-center gap-4">
         <p className="text-slate-400 text-xs font-black uppercase tracking-widest">
           Sailors Open 2026
