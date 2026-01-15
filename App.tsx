@@ -489,9 +489,26 @@ const RegistrationFlow = () => {
   };
 
   const handleCategoryToggle = (cat: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
-    );
+    setSelectedCategories(prev => {
+      const isSelectingMen = cat.startsWith("Men");
+      const isSelectingWomen = cat.startsWith("Women");
+
+      let next = [...prev];
+
+      // Mutually exclusive logic: if selecting a gender group, clear the other
+      if (isSelectingMen) {
+        next = next.filter(c => !c.startsWith("Women"));
+      } else if (isSelectingWomen) {
+        next = next.filter(c => !c.startsWith("Men"));
+      }
+
+      // Standard toggle logic
+      if (next.includes(cat)) {
+        return next.filter(c => c !== cat);
+      } else {
+        return [...next, cat];
+      }
+    });
   };
 
   const handleInfoSubmit = (e: React.FormEvent) => {
