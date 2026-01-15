@@ -389,6 +389,7 @@ const MobileNav = () => {
 
 const AboutSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
   
   const scrollToRegister = () => {
     const el = document.getElementById('registration-flow');
@@ -436,11 +437,29 @@ const AboutSection = () => {
     }
   ];
 
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollTop, offsetHeight } = containerRef.current;
+      const index = Math.round(scrollTop / offsetHeight);
+      setActiveIdx(index);
+    }
+  };
+
+  const navigateTo = (idx: number) => {
+    if (containerRef.current) {
+      containerRef.current.scrollTo({
+        top: idx * containerRef.current.offsetHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section id="about-section" className="relative lg:h-[calc(100vh-5rem)] overflow-hidden bg-white">
-      {/* Scrollable container with vertical snapping */}
+      {/* Scrollable container with vertical snapping - Scrollbar hidden via no-scrollbar */}
       <div 
         ref={containerRef}
+        onScroll={handleScroll}
         className="h-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar"
       >
         {sections.map((section, idx) => (
@@ -524,10 +543,19 @@ const AboutSection = () => {
         ))}
       </div>
       
-      {/* Scroll indicator for the section dots */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-10 hidden lg:flex">
+      {/* Interactive Scroll indicator for the section dots */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-10 hidden lg:flex">
         {sections.map((_, i) => (
-           <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+           <button 
+            key={i} 
+            onClick={() => navigateTo(i)}
+            className={`transition-all duration-300 rounded-full ${
+              activeIdx === i 
+                ? 'w-4 h-4 bg-[#4c8bf5] shadow-lg shadow-[#4c8bf5]/40' 
+                : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
+            }`}
+            aria-label={`Go to section ${i + 1}`}
+           />
         ))}
       </div>
     </section>
