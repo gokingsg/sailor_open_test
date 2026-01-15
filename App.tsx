@@ -14,7 +14,8 @@ import {
   BookOpen,
   UserPlus,
   BarChart3,
-  Gift
+  Gift,
+  MessageSquare
 } from 'lucide-react';
 
 /**
@@ -61,6 +62,13 @@ interface PrizeEntry {
   mensDoubles: number;
   womensSingles: number;
   womensDoubles: number;
+}
+
+interface ContactEntry {
+  market: string;
+  city: string;
+  garena: string[];
+  shopee: string[];
 }
 
 // --- Constants ---
@@ -149,6 +157,20 @@ const PRIZES_DATA: PrizeEntry[] = [
   { position: "2nd", mensSingles: 80, mensDoubles: 80, womensSingles: 80, womensDoubles: 80 },
   { position: "3rd", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
   { position: "4th", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
+];
+
+const CONTACT_DATA: ContactEntry[] = [
+  { market: "Brazil", city: "Sao Paulo", garena: ["Belle (colmane@garena.com)"], shopee: ["Pine Kyaw (pine.kyaw@shopee.com)"] },
+  { market: "China", city: "Beijing\nShanghai\nShenzhen", garena: ["Carrie (jiajun.chen@garena.com)"], shopee: ["Aaron Wang (aaron.wang@shopee.com)", "Lily (yang.lily@shopee.com)"] },
+  { market: "Indonesia", city: "Jakarta\nYogyakarta", garena: ["Asta (putric@garena.co.id)"], shopee: ["Isfana (isfana.arhami@shopee.com)"] },
+  { market: "Korea", city: "Seoul", garena: ["Si Young (leesy@garena.com)"], shopee: ["Minsu Cho (minsu.cho@shopee.com)"] },
+  { market: "Malaysia", city: "Kuala Lumpur", garena: ["-"], shopee: ["Eunice (eunice.low@shopee.com)"] },
+  { market: "Mexico", city: "Mexico City", garena: ["Rodrigo (chavezr@garena.com)"], shopee: ["-"] },
+  { market: "Philippines", city: "Manila", garena: ["-"], shopee: ["Redg (redg.mendoza@shopee.com)"] },
+  { market: "Singapore", city: "Singapore", garena: ["Li Yan (ongly@garena.com)", "Rae-Ann (rawu@garena.com)"], shopee: ["Jenn (jenn.teoje@shopee.com)"] },
+  { market: "Taiwan", city: "Taipei", garena: ["Toby (lutob@garena.com)"], shopee: ["Alice Wu (alice.wu@shopee.com)"] },
+  { market: "Thailand", city: "Bangkok", garena: ["Bank (akaraphon.s@sea.com)"], shopee: ["Mint (mint.amornwutthisutja@shopee.com)"] },
+  { market: "Vietnam", city: "Hanoi\nHo Chi Minh City", garena: ["Van Anh (vananh.tran@garena.vn)", "Linh (manhlinh.nguyen@garena.vn)"], shopee: ["Tram (tram.dinh@shopee.com)"] },
 ];
 
 // --- Components ---
@@ -284,6 +306,13 @@ const Sidebar = () => {
           <UserPlus size={20} className="text-[#4c8bf5]" />
           Register
         </button>
+        <button 
+          onClick={() => scrollTo('contact-section')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
+        >
+          <MessageSquare size={20} className="text-[#4c8bf5]" />
+          Contact
+        </button>
       </nav>
     </div>
   );
@@ -343,6 +372,9 @@ const MobileNav = () => {
             </button>
             <button onClick={() => scrollTo('registration-flow')} className="text-2xl font-bold flex items-center gap-4">
               <UserPlus className="text-[#4c8bf5]" /> Register
+            </button>
+            <button onClick={() => scrollTo('contact-section')} className="text-2xl font-bold flex items-center gap-4">
+              <MessageSquare className="text-[#4c8bf5]" /> Contact
             </button>
           </motion.div>
         )}
@@ -627,6 +659,60 @@ const PrizesSection = () => {
   );
 };
 
+const ContactSection = () => {
+  return (
+    <section id="contact-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-white">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-7xl mx-auto"
+      >
+        <div className="space-y-4 mb-12">
+          <h1 className="text-3xl lg:text-5xl font-black text-[#000080] leading-tight text-left">
+            Have more queries about Sailors Open?
+          </h1>
+          <p className="text-xl font-black text-[#000080]">Please check out the Rules / FAQ page.</p>
+          <p className="text-lg font-bold text-slate-600">You may contact the following for Sailors Open related enquiries:</p>
+        </div>
+
+        <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+          <table className="w-full text-left border-collapse min-w-[900px]">
+            <thead>
+              <tr className="bg-[#d3e3f6]">
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Market</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">City (Match Location)</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Garena PICs</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider">Shopee PICs</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {CONTACT_DATA.map((entry, idx) => (
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-5 font-bold text-[#000080] border-r border-slate-50">{entry.market}</td>
+                  <td className="px-6 py-5 text-slate-600 border-r border-slate-50 whitespace-pre-line">{entry.city}</td>
+                  <td className="px-6 py-5 text-slate-600 border-r border-slate-50">
+                    {entry.garena.map((pic, i) => <div key={i}>{pic}</div>)}
+                  </td>
+                  <td className="px-6 py-5 text-slate-600">
+                    {entry.shopee.map((pic, i) => <div key={i}>{pic}</div>)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-12 p-8 bg-slate-50 rounded-3xl border border-slate-100 text-center">
+          <p className="text-lg font-black text-[#000080]">
+            For feedback on the website, please contact <a href="mailto:sailorstennis@sea.com" className="text-[#4c8bf5] hover:underline">sailorstennis@sea.com</a>
+          </p>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
 const RegistrationFlow = () => {
   const [flowStep, setFlowStep] = useState<'info' | 'matchmaker' | 'success'>('info');
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
@@ -889,16 +975,11 @@ const RegistrationFlow = () => {
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white border-t border-slate-100 py-12 lg:py-16 px-6 lg:px-24 text-center">
-      <div className="max-w-7xl mx-auto flex flex-col items-center gap-6">
-        <div className="flex items-center justify-center gap-3 text-slate-400">
-          <Mail size={18} />
-          <span className="text-sm font-bold uppercase tracking-widest">Contact Us</span>
-        </div>
-        <a href="mailto:sailorstennis@sea.com" className="text-xl lg:text-2xl font-black text-[#000080] hover:text-[#4c8bf5] transition-colors">
-          sailorstennis@sea.com
-        </a>
-        <div className="h-px w-20 bg-slate-100 my-2" />
+    <footer className="w-full bg-slate-50 border-t border-slate-100 py-12 px-6 lg:px-24 text-center">
+      <div className="max-w-7xl mx-auto flex flex-col items-center gap-4">
+        <p className="text-slate-400 text-xs font-black uppercase tracking-widest">
+          Sailors Open 2026
+        </p>
         <p className="text-slate-400 text-xs font-medium">
           © 2026 Sailors Open Tennis Tournament. All rights reserved.
         </p>
@@ -921,6 +1002,7 @@ export default function App() {
           <LeaderboardSection />
           <PrizesSection />
           <RegistrationFlow />
+          <ContactSection />
           <Footer />
         </div>
       </div>
