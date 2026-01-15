@@ -13,7 +13,8 @@ import {
   Info,
   BookOpen,
   UserPlus,
-  HelpCircle
+  BarChart3,
+  Gift
 } from 'lucide-react';
 
 /**
@@ -38,6 +39,28 @@ interface MatchmakerQuestion {
   question: string;
   isMultiSelect?: boolean;
   options: MatchmakerOption[];
+}
+
+interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  played: number;
+  won: number;
+  lost: number;
+  setsW: number;
+  setsL: number;
+  gamesW: number;
+  gamesL: number;
+  gamesPct: string;
+  points: number;
+}
+
+interface PrizeEntry {
+  position: string;
+  mensSingles: number;
+  mensDoubles: number;
+  womensSingles: number;
+  womensDoubles: number;
 }
 
 // --- Constants ---
@@ -111,6 +134,21 @@ const QUESTIONS: MatchmakerQuestion[] = [
       { id: 'q5-o4', label: "Enjoying the post-match celebrations!" }
     ]
   }
+];
+
+const LEADERBOARD_DATA: LeaderboardEntry[] = [
+  { rank: 1, name: "Player A", played: 5, won: 5, lost: 0, setsW: 10, setsL: 1, gamesW: 65, gamesL: 32, gamesPct: "67.01%", points: 15 },
+  { rank: 2, name: "Player B", played: 4, won: 3, lost: 1, setsW: 6, setsL: 3, gamesW: 48, gamesL: 40, gamesPct: "54.55%", points: 10 },
+  { rank: 3, name: "Player C", played: 5, won: 2, lost: 3, setsW: 5, setsL: 7, gamesW: 45, gamesL: 55, gamesPct: "45.00%", points: 9 },
+  { rank: 4, name: "Player D", played: 4, won: 1, lost: 3, setsW: 2, setsL: 6, gamesW: 30, gamesL: 42, gamesPct: "41.67%", points: 6 },
+  { rank: 5, name: "Player E", played: 4, won: 0, lost: 4, setsW: 0, setsL: 8, gamesW: 22, gamesL: 48, gamesPct: "31.43%", points: 4 },
+];
+
+const PRIZES_DATA: PrizeEntry[] = [
+  { position: "1st", mensSingles: 100, mensDoubles: 100, womensSingles: 100, womensDoubles: 100 },
+  { position: "2nd", mensSingles: 80, mensDoubles: 80, womensSingles: 80, womensDoubles: 80 },
+  { position: "3rd", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
+  { position: "4th", mensSingles: 50, mensDoubles: 50, womensSingles: 50, womensDoubles: 50 },
 ];
 
 // --- Components ---
@@ -226,6 +264,20 @@ const Sidebar = () => {
           Rules
         </button>
         <button 
+          onClick={() => scrollTo('leaderboard-section')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
+        >
+          <BarChart3 size={20} className="text-[#4c8bf5]" />
+          Leaderboard
+        </button>
+        <button 
+          onClick={() => scrollTo('prizes-section')}
+          className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
+        >
+          <Gift size={20} className="text-[#4c8bf5]" />
+          Prizes
+        </button>
+        <button 
           onClick={() => scrollTo('registration-flow')}
           className="group flex items-center gap-3 text-xl font-bold transition-all text-left hover:translate-x-2"
         >
@@ -282,6 +334,12 @@ const MobileNav = () => {
             </button>
             <button onClick={() => scrollTo('rules-section')} className="text-2xl font-bold flex items-center gap-4">
               <BookOpen className="text-[#4c8bf5]" /> Rules
+            </button>
+            <button onClick={() => scrollTo('leaderboard-section')} className="text-2xl font-bold flex items-center gap-4">
+              <BarChart3 className="text-[#4c8bf5]" /> Leaderboard
+            </button>
+            <button onClick={() => scrollTo('prizes-section')} className="text-2xl font-bold flex items-center gap-4">
+              <Gift className="text-[#4c8bf5]" /> Prizes
             </button>
             <button onClick={() => scrollTo('registration-flow')} className="text-2xl font-bold flex items-center gap-4">
               <UserPlus className="text-[#4c8bf5]" /> Register
@@ -458,6 +516,111 @@ const RulesSection = () => {
             { label: "Claiming Rule", value: "Walkovers can only be claimed when the match is confirmed and cancelled within 24 hours of the start time." }
           ]}
         />
+      </motion.div>
+    </section>
+  );
+};
+
+const LeaderboardSection = () => {
+  return (
+    <section id="leaderboard-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-white">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-6xl mx-auto"
+      >
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
+          LEADERBOARD
+        </h1>
+        
+        <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-[#d3e3f6]">
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Rank</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20">Player Name</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">P</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">W</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">L</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Sets W</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Sets L</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Games W</th>
+                <th className="px-4 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Games L</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider border-r border-white/20 text-center">Games % Won</th>
+                <th className="px-6 py-5 font-black text-[#000080] text-sm uppercase tracking-wider text-center">Points</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {LEADERBOARD_DATA.map((entry, idx) => (
+                <tr key={idx} className="hover:bg-slate-50 transition-colors group">
+                  <td className="px-6 py-5 font-bold text-[#000080] border-r border-slate-50 text-center">{entry.rank}</td>
+                  <td className="px-6 py-5 font-bold text-[#000080] border-r border-slate-50">{entry.name}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.played}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.won}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.lost}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.setsW}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.setsL}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.gamesW}</td>
+                  <td className="px-4 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.gamesL}</td>
+                  <td className="px-6 py-5 font-medium text-slate-600 border-r border-slate-50 text-center">{entry.gamesPct}</td>
+                  <td className="px-6 py-5 font-black text-[#000080] text-center">{entry.points}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="mt-8 flex items-center gap-2 text-slate-400 font-medium text-sm">
+          <Info size={14} />
+          <span>Last updated: October 24, 2025</span>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+const PrizesSection = () => {
+  return (
+    <section id="prizes-section" className="relative py-16 lg:py-24 px-6 lg:px-24 bg-slate-50">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="max-w-6xl mx-auto"
+      >
+        <h1 className="text-3xl lg:text-7xl font-black text-[#000080] mb-8 lg:mb-12 leading-tight text-left">
+          PRIZES
+        </h1>
+        
+        <div className="overflow-x-auto rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 bg-white">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100">
+                <th className="px-8 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100">Position</th>
+                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Men's Singles</th>
+                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Men's Doubles</th>
+                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider border-r border-slate-100 text-center">Women's Singles</th>
+                <th className="px-6 py-6 font-black text-[#000080] text-base uppercase tracking-wider text-center">Women's Doubles</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {PRIZES_DATA.map((entry, idx) => (
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-8 py-6 font-black text-[#000080] text-lg border-r border-slate-100">{entry.position}</td>
+                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.mensSingles}</td>
+                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.mensDoubles}</td>
+                  <td className="px-6 py-6 font-bold text-slate-600 border-r border-slate-100 text-center text-lg">{entry.womensSingles}</td>
+                  <td className="px-6 py-6 font-bold text-slate-600 text-center text-lg">{entry.womensDoubles}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="mt-8 flex items-center gap-2 text-slate-500 font-bold text-lg">
+          <p>* Prize amounts are in USD</p>
+        </div>
       </motion.div>
     </section>
   );
@@ -754,6 +917,8 @@ export default function App() {
         <div className="flex-1 flex flex-col">
           <AboutSection />
           <RulesSection />
+          <LeaderboardSection />
+          <PrizesSection />
           <RegistrationFlow />
           <Footer />
         </div>
