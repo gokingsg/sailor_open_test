@@ -399,13 +399,12 @@ const AboutSection = () => {
   const sections = [
     {
       title: "ABOUT SAILORS OPEN",
-      content: "Welcome to the official home of the Sailors Open 2026—the inaugural tennis tournament where we trade our keyboards for rackets and our screens for the baseline!\n\nAt Sea, we know how to navigate the vast digital ocean with precision and drive. But even the most dedicated crew needs to drop anchor, recharge, and enjoy the breeze. The Sailors Open is more than just a tournament; it’s our collective \"breather,\" a vibrant celebration of our community, and a chance to smash some aces with colleagues you’ve only ever met on a video call.",
+      content: "Welcome to the official homepage of the Sailors Open 2026—the inaugural tennis tournament where we trade our keyboards for rackets and our screens for the baseline!\n\nAt Sea, we believe that even the most dedicated crews should find time to drop anchor, recharge, and enjoy the breeze. The Sailors Open is more than just a tournament; it’s a vibrant celebration of our community and a chance to smash some aces with colleagues you’ve only ever met on a video call.",
       icon: null,
     },
     {
-      title: "Why Join the Voyage?",
-      subtitle: "Skill-Level-Zero-Friendly!",
-      content: "Whether you have a lightning-fast serve or you’ve never even held a racket, there is a place for you on our court. This is a Skill-Level-Zero-Friendly zone! Our goal isn't to find the next Grand Slam champion; it’s to foster the joy of movement and the power of connection.",
+      title: "Why Join?",
+      content: "Whether you have a lightning-fast serve or you’ve never held a tennis racket, there is a place for you on our court. This is a Zero-Skill-Friendly tournament! Our goal isn't to find the next Grand Slam champion; it’s to foster the joy of movement and the power of connection.",
       icon: null,
     },
     {
@@ -413,19 +412,19 @@ const AboutSection = () => {
       subtitle: "One Rally at a Time",
       content: "We’re bringing the Sea spirit to the playing courts. Here’s how our core values are guiding the tournament:",
       values: [
-        { label: "We Serve (Aces)", desc: "On the court, we serve up “aces” and joy! This tournament is our way of serving the well-being of our greatest asset—you.", icon: "🎾" },
-        { label: "We Run (for Every Ball)", desc: "We run for every drop shot and chase every ball with relentless energy. It’s about moving our bodies and pushing our limits.", icon: "🏃" },
-        { label: "We Adapt (to Match Conditions)", desc: "Wind might shift, spin might be tricky, but Sailors find a way. We embrace the challenge with a smile.", icon: "🔄" },
-        { label: "We Commit (to the Final Match Point)", desc: "We play with integrity. When the score is tight and the sun is high, we dig deep and finish what we started.", icon: "🤝" },
-        { label: "We Stay Humble (Win or Lose)", desc: "Whether you win or miss entirely, we stay gracious. We celebrate great shots, laugh off misses, and end with a handshake.", icon: "🌱" }
+        { label: "We Serve (Aces)", desc: "This tournament is our way of serving the well-being of our greatest asset—you. By taking time away from serving our users to serving up “Aces” on the court, we hope that our Sailors can come back feeling refreshed and ready to make a difference at work.", icon: "🎾" },
+        { label: "We Run (for Every Ball)", desc: "We are known for our speed of execution and sense of urgency. At the Sailors Open, “We Run” for every drop shot and chase every ball with that same relentless energy. It’s about moving our bodies and pushing our limits, all while having a blast.", icon: "🏃" },
+        { label: "We Adapt (to Match Conditions)", desc: "The weather might shift, and the ballspin might be tricky, but Sailors find a way. Whether you’re learning a new stroke or playing doubles with a new teammate, We Adapt to the game conditions, embracing every new challenge with a smile.", icon: "🔄" },
+        { label: "We Commit (to the Final Match Point)", desc: "We play with integrity, honoring the rules and our opponents. When the scoreline is tight, we dig deep and finish what we started.", icon: "🤝" },
+        { label: "We Stay Humble (Win or Lose)", desc: "Whether you win the match point or miss the ball entirely, We Stay Humble in victory and gracious in defeat. Everyone has something to learn from the experience. We celebrate the great shots, laugh off the misses, and always end with a high-five.", icon: "🌱" }
       ]
     },
     {
       title: "What to Expect",
       items: [
-        { title: "Joyful Moments", desc: "Music, refreshments, and high-fives are the priority.", icon: <Smile className="text-[#4c8bf5]" /> },
-        { title: "New Connections", desc: "Partner up with someone from a different department and expand your \"crew.\"", icon: <Users className="text-[#4c8bf5]" /> },
-        { title: "The Breather You Need", desc: "Physical activity is the best way to clear the mind and boost creativity.", icon: <Wind className="text-[#4c8bf5]" /> }
+        { title: "Create Happy Moments", desc: "Music, refreshments, and enjoyment are the priority.", icon: <Smile className="text-[#4c8bf5]" /> },
+        { title: "Forge New Connections", desc: "Partner up with someone from a different department and expand your crew.", icon: <Users className="text-[#4c8bf5]" /> },
+        { title: "The Breather You Needed", desc: "Physical activity is the best way to clear the mind and boost creativity.", icon: <Wind className="text-[#4c8bf5]" /> }
       ]
     },
     {
